@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Levels List</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0b0c10;
+      color: #c5c6c7;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #ff4500, #ff8c00);
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .level-card {
+      background-color: #1f2833;
+      border-left: 6px solid #ff4500;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .level-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    }
+    .level-rank {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff8c00;
+      width: 60px;
+    }
+    .level-info {
+      flex-grow: 1;
+    }
+    .level-title {
+      font-size: 1.4rem;
+      color: #66fcf1;
+      margin-bottom: 5px;
+    }
+    .level-author {
+      font-size: 0.95rem;
+      color: #c5c6c7;
+    }
+    .level-verifier {
+      font-size: 0.85rem;
+      color: #45a29e;
+      margin-top: 4px;
+    }
+    .video-btn {
+      background-color: #ff4500;
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .video-btn:hover {
+      background-color: #e03e00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>☀️ Solar Levels List</h1>
+      <p>The official rankings for the hardest solar demons</p>
+    </header>
+
+    <main id="list-container">
+      <!-- Level items will be inserted here dynamically -->
+    </main>
+  </div>
+
+  <script>
+    // EDIT YOUR LEVELS HERE
+    const solarLevels = [
+      {
+        rank: 1,
+        name: "Solar Flare",
+        creator: "Linear & More",
+        verifier: "Trick",
+        ytLink: "https://www.youtube.com"
+      },
+      {
+        rank: 2,
+        name: "Sunburn",
+        creator: "Viprin & More",
+        verifier: "Player1",
+        ytLink: "https://www.youtube.com"
+      },
+      {
+        rank: 3,
+        name: "Corona",
+        creator: "Subtle",
+        verifier: "Player2",
+        ytLink: "https://www.youtube.com"
+      }
+    ];
+
+    const container = document.getElementById('list-container');
+
+    solarLevels.forEach(level => {
+      const card = document.createElement('div');
+      card.className = 'level-card';
+      card.innerHTML = `
+        <div class="level-rank">#${level.rank}</div>
+        <div class="level-info">
+          <div class="level-title">${level.name}</div>
+          <div class="level-author">Created by <strong>${level.creator}</strong></div>
+          <div class="level-verifier">Verified by ${level.verifier}</div>
+        </div>
+        <a href="${level.ytLink}" target="_blank" class="video-btn">Watch Video</a>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
