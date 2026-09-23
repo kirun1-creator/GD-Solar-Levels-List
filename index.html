@@ -105,58 +105,33 @@
     </main>
   </div>
 
-  <script><script>
-  // ==========================================
-  // 1. DATA CONFIGURATION (EDIT YOUR LEVELS HERE)
-  // ==========================================
-  const solarLevels = [
-    {
-      rank: 1,
-      name: "Extreme Robot",
-      creator: "Kirun1001",
-      verifier: "Kirun1001",
-      ytLink: "https://www.youtube.com",
-      victors: ["Trick", "Zoink", "Doggie"] // List of people who beat it
-    },
-    {
-      rank: 2,
-      name: "-",
-      creator: "-",
-      verifier: "-",
-      ytLink: "https://www.youtube.com",
-      victors: ["Player1", "Zoink"]
-    },
-    {
-      rank: 3,
-      name:"-",
-      creator: "Subtle",
-      verifier: "Player2",
-      ytLink: "https://www.youtube.com",
-      victors: ["Player2", "Trick"]
-    }
-  ];
+  <script>
+    // EDIT YOUR LEVELS HERE
+    const solarLevels = [
+      {
+        rank: 1,
+        name: "Extreme Robot",
+        creator: "Kirun1001",
+        verifier: "Kirun1001",
+        ytLink: "https://www.youtube.com"
+      },
+      {
+        rank: 2,
+        name: "-",
+        creator: "-",
+        verifier: "-",
+        ytLink: "https://www.youtube.com"
+      },
+      {
+        rank: 3,
+        name: "-",
+        creator: "-",
+        verifier: "Player2",
+        ytLink: "https://www.youtube.com"
+      }
+    ];
 
-  // ==========================================
-  // 2. FORMULA FOR LEVEL POINTS
-  // ==========================================
-  function calculatePoints(rank, totalLevels) {
-    // Rank 1 gives 100 points, scaling down smoothly for lower ranks
-    const basePoints = 100;
-    const points = basePoints * Math.pow(0.85, rank - 1);
-    return Math.round(points * 10) / 10; // Round to 1 decimal place
-  }
-
-  // Calculate points for all levels
-  solarLevels.forEach(level => {
-    level.points = calculatePoints(level.rank, solarLevels.length);
-  });
-
-  // ==========================================
-  // 3. RENDER THE LEVEL LIST
-  // ==========================================
-  function renderLevels() {
     const container = document.getElementById('list-container');
-    container.innerHTML = ''; // Clear container
 
     solarLevels.forEach(level => {
       const card = document.createElement('div');
@@ -166,72 +141,12 @@
         <div class="level-info">
           <div class="level-title">${level.name}</div>
           <div class="level-author">Created by <strong>${level.creator}</strong></div>
-          <div class="level-verifier">Verified by ${level.verifier} | <span style="color: #ff8c00; font-weight: bold;">${level.points} pts</span></div>
+          <div class="level-verifier">Verified by ${level.verifier}</div>
         </div>
         <a href="${level.ytLink}" target="_blank" class="video-btn">Watch Video</a>
       `;
       container.appendChild(card);
     });
-  }
-
-  // ==========================================
-  // 4. STATS VIEWER (PLAYER LEADERBOARD)
-  // ==========================================
-  function renderStatsViewer() {
-    // Map to keep track of player total points
-    const players = {};
-
-    solarLevels.forEach(level => {
-      // Give points to the verifier
-      if (level.verifier) {
-        players[level.verifier] = (players[level.verifier] || 0) + level.points;
-      }
-      // Give points to victors
-      if (level.victors) {
-        level.victors.forEach(victor => {
-          if (victor !== level.verifier) { // Avoid double-counting verifier
-            players[victor] = (players[victor] || 0) + level.points;
-          }
-        });
-      }
-    });
-
-    // Sort players by total points (highest first)
-    const leaderboard = Object.keys(players)
-      .map(name => ({ name, points: Math.round(players[name] * 10) / 10 }))
-      .sort((a, b) => b.points - a.points);
-
-    // Create Stats Section in HTML
-    const statsContainer = document.createElement('div');
-    statsContainer.style.marginTop = '40px';
-    statsContainer.style.padding = '20px';
-    statsContainer.style.backgroundColor = '#1f2833';
-    statsContainer.style.borderRadius = '8px';
-    statsContainer.style.borderLeft = '6px solid #66fcf1';
-
-    let statsHTML = '<h2 style="color: #66fcf1; margin-bottom: 15px;">📊 Player Stats Leaderboard</h2>';
-    statsHTML += '<ol style="padding-left: 20px;">';
-
-    leaderboard.forEach((player, index) => {
-      statsHTML += `
-        <li style="margin-bottom: 8px; font-size: 1.1rem;">
-          <strong>${player.name}</strong> — <span style="color: #ff8c00;">${player.points} Points</span>
-        </li>
-      `;
-    });
-
-    statsHTML += '</ol>';
-    statsContainer.innerHTML = statsHTML;
-
-    // Append to main page
-    document.querySelector('.container').appendChild(statsContainer);
-  }
-
-  // Run functions when page loads
-  renderLevels();
-  renderStatsViewer();
-</script>
-
   </script>
 
 </body>
