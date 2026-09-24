@@ -79,6 +79,9 @@
       transform: translateY(-3px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
     }
+    .clickable-card {
+      cursor: pointer;
+    }
     .card-rank {
       font-size: 2rem;
       font-weight: bold;
@@ -120,6 +123,70 @@
     .video-btn:hover {
       background-color: #e03e00;
     }
+
+    /* Player Profile Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background-color: #1f2833;
+      border: 2px solid #ff4500;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4);
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.8rem;
+      color: #c5c6c7;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .modal-close:hover {
+      color: #ff4500;
+    }
+    .modal-title {
+      font-size: 1.8rem;
+      color: #66fcf1;
+      margin-bottom: 5px;
+    }
+    .modal-stats {
+      font-size: 1rem;
+      color: #ff8c00;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #45a29e;
+    }
+    .modal-level-list {
+      list-style: none;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .modal-level-item {
+      background: #0b0c10;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
@@ -139,6 +206,17 @@
     <!-- Main view containers -->
     <main id="list-container"></main>
     <main id="leaderboard-container" style="display: none;"></main>
+  </div>
+
+  <!-- Player Profile Modal Popup -->
+  <div class="modal-overlay" id="profile-modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeProfile()">&times;</span>
+      <div class="modal-title" id="modal-player-name">Player Profile</div>
+      <div class="modal-stats" id="modal-player-stats">0 Points</div>
+      <h3 style="color: #c5c6c7; margin-bottom: 10px;">Completed / Verified Levels:</h3>
+      <ul class="modal-level-list" id="modal-level-list"></ul>
+    </div>
   </div>
 
   <script>
@@ -190,14 +268,13 @@
       });
     }
 
-    // 2. Render the Leaderboard automatically based on player points
+    // 2. Render the Leaderboard
     function renderLeaderboard() {
       const lbContainer = document.getElementById('leaderboard-container');
       lbContainer.innerHTML = '';
 
       const playerScores = {};
 
-      // Calculate total points per verifier (ignoring placeholders)
       solarLevels.forEach(level => {
         if (level.verifier && level.verifier.trim() !== "-") {
           const points = 151 - level.rank;
@@ -205,7 +282,6 @@
         }
       });
 
-      // Sort players by highest points
       const sortedPlayers = Object.keys(playerScores)
         .map(name => ({ name, points: playerScores[name] }))
         .sort((a, b) => b.points - a.points);
@@ -218,19 +294,61 @@
       sortedPlayers.forEach((player, index) => {
         const rank = index + 1;
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'card clickable-card';
+        card.onclick = () => openProfile(player.name, player.points);
         card.innerHTML = `
           <div class="card-rank">#${rank}</div>
           <div class="card-info">
             <div class="card-title">${player.name}</div>
-            <div class="card-detail"><span class="points-badge" style="margin-left:0;">${player.points.toFixed(2)} total pts</span></div>
+            <div class="card-detail"><span class="points-badge" style="margin-left:0;">${player.points.toFixed(2)} total pts</span> (Tap to view levels)</div>
           </div>
         `;
         lbContainer.appendChild(card);
       });
     }
 
-    // 3. Switch between tabs
+    // 3. Open Player Profile Modal
+    function openProfile(playerName, totalPoints) {
+      document.getElementById('modal-player-name').innerText = playerName;
+      document.getElementById('modal-player-stats').innerText = `Total Score: ${totalPoints.toFixed(2)} pts`;
+      
+      const levelListEl = document.getElementById('modal-level-list');
+      levelListEl.innerHTML = '';
+
+      // Find all levels verified or completed by this player
+      const completedLevels = solarLevels.filter(lvl => lvl.verifier === playerName);
+
+      completedLevels.forEach(lvl => {
+        const pts = (151 - lvl.rank).toFixed(2);
+        const li = document.createElement('li');
+        li.className = 'modal-level-item';
+        li.innerHTML = `
+          <div>
+            <strong style="color:#66fcf1;">#${lvl.rank} ${lvl.name}</strong>
+            <div style="font-size:0.8rem; color:#c5c6c7;">By ${lvl.creator}</div>
+          </div>
+          <span style="color:#ff8c00; font-weight:bold;">${pts} pts</span>
+        `;
+        levelListEl.appendChild(li);
+      });
+
+      document.getElementById('profile-modal').style.display = 'flex';
+    }
+
+    // 4. Close Player Profile Modal
+    function closeProfile() {
+      document.getElementById('profile-modal').style.display = 'none';
+    }
+
+    // Close modal if user clicks outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('profile-modal');
+      if (event.target === modal) {
+        closeProfile();
+      }
+    };
+
+    // 5. Switch between tabs
     function showTab(tabName) {
       const listTab = document.getElementById('list-container');
       const lbTab = document.getElementById('leaderboard-container');
