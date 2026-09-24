@@ -22,7 +22,7 @@
       background: linear-gradient(135deg, #ff4500, #ff8c00);
       color: white;
       border-radius: 12px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3);
     }
     header h1 {
@@ -39,7 +39,32 @@
       max-width: 800px;
       margin: 0 auto;
     }
-    .level-card {
+    
+    /* Navigation Bar */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .nav-btn {
+      background-color: #1f2833;
+      color: #66fcf1;
+      border: 2px solid #ff4500;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-btn.active, .nav-btn:hover {
+      background-color: #ff4500;
+      color: white;
+    }
+
+    /* Cards Layout */
+    .card {
       background-color: #1f2833;
       border-left: 6px solid #ff4500;
       border-radius: 8px;
@@ -50,29 +75,29 @@
       justify-content: space-between;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .level-card:hover {
+    .card:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
     }
-    .level-rank {
+    .card-rank {
       font-size: 2rem;
       font-weight: bold;
       color: #ff8c00;
       width: 60px;
     }
-    .level-info {
+    .card-info {
       flex-grow: 1;
     }
-    .level-title {
+    .card-title {
       font-size: 1.4rem;
       color: #66fcf1;
       margin-bottom: 5px;
     }
-    .level-author {
+    .card-subtitle {
       font-size: 0.95rem;
       color: #c5c6c7;
     }
-    .level-verifier {
+    .card-detail {
       font-size: 0.85rem;
       color: #45a29e;
       margin-top: 4px;
@@ -105,14 +130,19 @@
       <p>The official rankings for the hardest demons</p>
     </header>
 
-    <main id="list-container">
-      <!-- Level items will be inserted here dynamically -->
-    </main>
+    <!-- Navigation buttons to switch tabs -->
+    <div class="nav-bar">
+      <button class="nav-btn active" id="list-tab-btn" onclick="showTab('list')">Demon List</button>
+      <button class="nav-btn" id="leaderboard-tab-btn" onclick="showTab('leaderboard')">Leaderboards</button>
+    </div>
+
+    <!-- Main view containers -->
+    <main id="list-container"></main>
+    <main id="leaderboard-container" style="display: none;"></main>
   </div>
 
   <script>
-    // EDIT YOUR LEVELS HERE
-    // IMPORTANT: Make sure every level object has commas between them, and text is inside quotes!
+    // YOUR LEVELS ARRAY
     const solarLevels = [
       {
         rank: 1,
@@ -132,29 +162,97 @@
         rank: 3,
         name: "-",
         creator: "-",
-        verifier: " -",
+        verifier: "-",
         ytLink: "https://www.youtube.com"
       }
     ];
 
-    const container = document.getElementById('list-container');
+    // 1. Render the Demon List
+    function renderList() {
+      const listContainer = document.getElementById('list-container');
+      listContainer.innerHTML = '';
 
-    solarLevels.forEach(level => {
-      const points = (151 - level.rank).toFixed(2);
+      solarLevels.forEach(level => {
+        const points = (151 - level.rank).toFixed(2);
 
-      const card = document.createElement('div');
-      card.className = 'level-card';
-      card.innerHTML = `
-        <div class="level-rank">#${level.rank}</div>
-        <div class="level-info">
-          <div class="level-title">${level.name}</div>
-          <div class="level-author">Created by <strong>${level.creator}</strong></div>
-          <div class="level-verifier">Verified by ${level.verifier} | <span class="points-badge">${points} pts</span></div>
-        </div>
-        <a href="${level.ytLink}" target="_blank" class="video-btn">Watch Video</a>
-      `;
-      container.appendChild(card);
-    });
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-rank">#${level.rank}</div>
+          <div class="card-info">
+            <div class="card-title">${level.name}</div>
+            <div class="card-subtitle">Created by <strong>${level.creator}</strong></div>
+            <div class="card-detail">Verified by ${level.verifier} | <span class="points-badge">${points} pts</span></div>
+          </div>
+          <a href="${level.ytLink}" target="_blank" class="video-btn">Watch Video</a>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    // 2. Render the Leaderboard automatically based on player points
+    function renderLeaderboard() {
+      const lbContainer = document.getElementById('leaderboard-container');
+      lbContainer.innerHTML = '';
+
+      const playerScores = {};
+
+      // Calculate total points per verifier (ignoring placeholders)
+      solarLevels.forEach(level => {
+        if (level.verifier && level.verifier.trim() !== "-") {
+          const points = 151 - level.rank;
+          playerScores[level.verifier] = (playerScores[level.verifier] || 0) + points;
+        }
+      });
+
+      // Sort players by highest points
+      const sortedPlayers = Object.keys(playerScores)
+        .map(name => ({ name, points: playerScores[name] }))
+        .sort((a, b) => b.points - a.points);
+
+      if (sortedPlayers.length === 0) {
+        lbContainer.innerHTML = '<p style="text-align:center; padding: 20px;">No player records found yet.</p>';
+        return;
+      }
+
+      sortedPlayers.forEach((player, index) => {
+        const rank = index + 1;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-rank">#${rank}</div>
+          <div class="card-info">
+            <div class="card-title">${player.name}</div>
+            <div class="card-detail"><span class="points-badge" style="margin-left:0;">${player.points.toFixed(2)} total pts</span></div>
+          </div>
+        `;
+        lbContainer.appendChild(card);
+      });
+    }
+
+    // 3. Switch between tabs
+    function showTab(tabName) {
+      const listTab = document.getElementById('list-container');
+      const lbTab = document.getElementById('leaderboard-container');
+      const listBtn = document.getElementById('list-tab-btn');
+      const lbBtn = document.getElementById('leaderboard-tab-btn');
+
+      if (tabName === 'list') {
+        listTab.style.display = 'block';
+        lbTab.style.display = 'none';
+        listBtn.classList.add('active');
+        lbBtn.classList.remove('active');
+      } else {
+        listTab.style.display = 'none';
+        lbTab.style.display = 'block';
+        lbBtn.classList.add('active');
+        listBtn.classList.remove('active');
+      }
+    }
+
+    // Initial Load
+    renderList();
+    renderLeaderboard();
   </script>
 
 </body>
