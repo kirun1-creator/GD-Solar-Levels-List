@@ -77,6 +77,11 @@
       color: #45a29e;
       margin-top: 4px;
     }
+    .points-badge {
+      color: #ff8c00;
+      font-weight: bold;
+      margin-left: 6px;
+    }
     .video-btn {
       background-color: #ff4500;
       color: white;
@@ -117,15 +122,15 @@
       },
       {
         rank: 2,
-        name: "-",
-        creator: "-",
-        verifier: "-",
+        name: "Sunburn",
+        creator: "Viprin & More",
+        verifier: "Player1",
         ytLink: "https://www.youtube.com"
       },
       {
         rank: 3,
-        name: "-",
-        creator: "-",
+        name: "Corona",
+        creator: "Subtle",
         verifier: "Player2",
         ytLink: "https://www.youtube.com"
       }
@@ -134,6 +139,9 @@
     const container = document.getElementById('list-container');
 
     solarLevels.forEach(level => {
+      // Formula: 151 minus rank gives 150 for #1, 149 for #2, 148 for #3, etc.
+      const points = (151 - level.rank).toFixed(2);
+
       const card = document.createElement('div');
       card.className = 'level-card';
       card.innerHTML = `
@@ -141,7 +149,7 @@
         <div class="level-info">
           <div class="level-title">${level.name}</div>
           <div class="level-author">Created by <strong>${level.creator}</strong></div>
-          <div class="level-verifier">Verified by ${level.verifier}</div>
+          <div class="level-verifier">Verified by ${level.verifier} | <span class="points-badge">${points} pts</span></div>
         </div>
         <a href="${level.ytLink}" target="_blank" class="video-btn">Watch Video</a>
       `;
