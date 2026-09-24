@@ -112,26 +112,27 @@
 
   <script>
     // EDIT YOUR LEVELS HERE
+    // IMPORTANT: Make sure every level object has commas between them, and text is inside quotes!
     const solarLevels = [
       {
         rank: 1,
-        name: "Extreme Robot",
+        name: "Exreme Robot",
         creator: "Kirun1001",
         verifier: "Kirun1001",
         ytLink: "https://www.youtube.com"
       },
       {
         rank: 2,
-        name: "-",
-        creator: "-
+        name: "",
+        creator: "-",
         verifier: "-",
         ytLink: "https://www.youtube.com"
       },
       {
         rank: 3,
         name: "-",
-        creator: "Subtle",
-        verifier: "Player2",
+        creator: "-",
+        verifier: " -",
         ytLink: "https://www.youtube.com"
       }
     ];
@@ -139,7 +140,6 @@
     const container = document.getElementById('list-container');
 
     solarLevels.forEach(level => {
-      // Formula: 151 minus rank gives 150 for #1, 149 for #2, 148 for #3, etc.
       const points = (151 - level.rank).toFixed(2);
 
       const card = document.createElement('div');
