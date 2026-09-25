@@ -12,10 +12,12 @@
     header p { margin-top: 10px; font-size: 1.1rem; opacity: 0.9; }
     .container { max-width: 800px; margin: 0 auto; }
     
+    /* Navigation Bar */
     .nav-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
     .nav-btn { background-color: #1f2833; color: #66fcf1; border: 2px solid #ff4500; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
     .nav-btn.active, .nav-btn:hover { background-color: #ff4500; color: white; }
 
+    /* Cards Layout */
     .card { background-color: #1f2833; border-left: 6px solid #ff4500; border-radius: 8px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); }
     .clickable-card { cursor: pointer; }
@@ -26,6 +28,8 @@
     .card-detail { font-size: 0.85rem; color: #45a29e; margin-top: 4px; }
     .level-id-badge { font-size: 0.8rem; color: #8892b0; margin-top: 4px; }
     .points-badge { color: #ff8c00; font-weight: bold; margin-left: 6px; }
+    
+    /* Buttons */
     .video-btn { background-color: #ff4500; color: white; text-decoration: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; }
     .video-btn:hover { background-color: #e03e00; }
     
@@ -37,13 +41,15 @@
       border-radius: 4px;
       font-size: 0.75rem;
       font-weight: bold;
-      margin-left: 10px;
+      margin-left: 8px;
+      display: inline-block;
       transition: background 0.2s;
     }
     .small-yt-btn:hover {
       background-color: #cc0000;
     }
 
+    /* Modal Overlay */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
     .modal-content { background-color: #1f2833; border: 2px solid #ff4500; border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; position: relative; box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4); }
     .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; color: #c5c6c7; cursor: pointer; font-weight: bold; }
@@ -71,6 +77,7 @@
     <main id="leaderboard-container" style="display: none;"></main>
   </div>
 
+  <!-- Player Profile Modal Popup -->
   <div class="modal-overlay" id="profile-modal">
     <div class="modal-content">
       <span class="modal-close" onclick="closeModal('profile-modal')">&times;</span>
@@ -81,6 +88,7 @@
     </div>
   </div>
 
+  <!-- Level Victor Breakdown Modal Popup -->
   <div class="modal-overlay" id="level-modal">
     <div class="modal-content">
       <span class="modal-close" onclick="closeModal('level-modal')">&times;</span>
@@ -92,12 +100,7 @@
   </div>
 
   <script>
-    // HOW TO ADD VICTORS WITH VIDEO LINKS:
-    // Change victors: [] to objects with name and link like this:
-    // victors: [
-    //   { name: "Player1", ytLink: "https://youtu.be/..." },
-    //   { name: "Player2", ytLink: "" } // leave ytLink empty if they have no video
-    // ]
+    // Solar levels configuration array
     const solarLevels = [
       {
         rank: 1,
@@ -138,7 +141,7 @@
         const card = document.createElement('div');
         card.className = 'card clickable-card';
         card.onclick = (e) => {
-          if (e.target.classList.contains('video-btn')) return;
+          if (e.target.classList.contains('video-btn') || e.target.classList.contains('small-yt-btn')) return;
           openLevelModal(level);
         };
 
@@ -269,12 +272,29 @@
 
       completedLevels.forEach(lvl => {
         const pts = (151 - lvl.rank).toFixed(2);
-        const role = (lvl.verifier === playerName) ? "Verifier" : "Victor";
+        const isVerifier = lvl.verifier === playerName;
+        const role = isVerifier ? "Verifier" : "Victor";
+
+        // Find the player's specific completion link
+        let completionLink = "";
+        if (isVerifier) {
+          completionLink = lvl.ytLink || "";
+        } else if (lvl.victors && Array.isArray(lvl.victors)) {
+          const victorObj = lvl.victors.find(v => (typeof v === 'object' ? v.name : v) === playerName);
+          if (victorObj && typeof victorObj === 'object') {
+            completionLink = victorObj.ytLink || "";
+          }
+        }
+
+        const watchBtn = (completionLink && completionLink.trim() !== "") 
+          ? `<a href="${completionLink}" target="_blank" class="small-yt-btn">Watch</a>` 
+          : '';
+
         const li = document.createElement('li');
         li.className = 'modal-item';
         li.innerHTML = `
           <div>
-            <strong style="color:#66fcf1;">#${lvl.rank} ${lvl.name}</strong>
+            <strong style="color:#66fcf1;">#${lvl.rank} ${lvl.name}</strong> ${watchBtn}
             <div style="font-size:0.8rem; color:#c5c6c7;">By ${lvl.creator} (${role})</div>
           </div>
           <span style="color:#ff8c00; font-weight:bold;">${pts} pts</span>
@@ -315,6 +335,7 @@
       }
     }
 
+    // Initial render
     renderList();
     renderLeaderboard();
   </script>
