@@ -28,6 +28,21 @@
     .points-badge { color: #ff8c00; font-weight: bold; margin-left: 6px; }
     .video-btn { background-color: #ff4500; color: white; text-decoration: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; }
     .video-btn:hover { background-color: #e03e00; }
+    
+    .small-yt-btn {
+      background-color: #ff0000;
+      color: white;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-left: 10px;
+      transition: background 0.2s;
+    }
+    .small-yt-btn:hover {
+      background-color: #cc0000;
+    }
 
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
     .modal-content { background-color: #1f2833; border: 2px solid #ff4500; border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; position: relative; box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4); }
@@ -77,6 +92,12 @@
   </div>
 
   <script>
+    // HOW TO ADD VICTORS WITH VIDEO LINKS:
+    // Change victors: [] to objects with name and link like this:
+    // victors: [
+    //   { name: "Player1", ytLink: "https://youtu.be/..." },
+    //   { name: "Player2", ytLink: "" } // leave ytLink empty if they have no video
+    // ]
     const solarLevels = [
       {
         rank: 1,
@@ -150,8 +171,9 @@
 
         if (level.victors && Array.isArray(level.victors)) {
           level.victors.forEach(victor => {
-            if (victor && victor.trim() !== "-" && victor !== level.verifier) {
-              playerScores[victor] = (playerScores[victor] || 0) + points;
+            const vName = typeof victor === 'object' ? victor.name : victor;
+            if (vName && vName.trim() !== "-" && vName !== level.verifier) {
+              playerScores[vName] = (playerScores[vName] || 0) + points;
             }
           });
         }
@@ -193,13 +215,16 @@
       const allVictors = [];
 
       if (level.verifier && level.verifier.trim() !== "-") {
-        allVictors.push({ name: level.verifier, role: "Verifier" });
+        allVictors.push({ name: level.verifier, role: "Verifier", link: level.ytLink });
       }
 
       if (level.victors && Array.isArray(level.victors)) {
         level.victors.forEach(v => {
-          if (v && v.trim() !== "-" && v !== level.verifier) {
-            allVictors.push({ name: v, role: "Victor" });
+          const vName = typeof v === 'object' ? v.name : v;
+          const vLink = typeof v === 'object' ? v.ytLink : '';
+          
+          if (vName && vName.trim() !== "-" && vName !== level.verifier) {
+            allVictors.push({ name: vName, role: "Victor", link: vLink });
           }
         });
       }
@@ -210,8 +235,16 @@
         allVictors.forEach(item => {
           const li = document.createElement('li');
           li.className = 'modal-item';
+          
+          const watchBtn = (item.link && item.link.trim() !== "") 
+            ? `<a href="${item.link}" target="_blank" class="small-yt-btn">Watch</a>` 
+            : '';
+
           li.innerHTML = `
-            <strong style="color:#66fcf1;">${item.name}</strong>
+            <div>
+              <strong style="color:#66fcf1;">${item.name}</strong>
+              ${watchBtn}
+            </div>
             <span style="color:#ff8c00; font-weight:bold; font-size: 0.85rem;">${item.role}</span>
           `;
           victorListEl.appendChild(li);
@@ -228,9 +261,11 @@
       const levelListEl = document.getElementById('modal-level-list');
       levelListEl.innerHTML = '';
 
-      const completedLevels = solarLevels.filter(lvl => 
-        lvl.verifier === playerName || (lvl.victors && lvl.victors.includes(playerName))
-      );
+      const completedLevels = solarLevels.filter(lvl => {
+        const isVerifier = lvl.verifier === playerName;
+        const isVictor = lvl.victors && lvl.victors.some(v => (typeof v === 'object' ? v.name : v) === playerName);
+        return isVerifier || isVictor;
+      });
 
       completedLevels.forEach(lvl => {
         const pts = (151 - lvl.rank).toFixed(2);
