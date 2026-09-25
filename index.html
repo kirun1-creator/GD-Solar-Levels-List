@@ -6,23 +6,55 @@
   <title>Solar Levels List</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #0b0c10; color: #c5c6c7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+    body { background-color: #0b0c10; color: #c5c6c7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; min-height: 100vh; }
+    .container { max-width: 800px; margin: 0 auto; }
+    
     header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #ff4500, #ff8c00); color: white; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3); }
     header h1 { font-size: 2.5rem; letter-spacing: 2px; text-transform: uppercase; }
     header p { margin-top: 10px; font-size: 1.1rem; opacity: 0.9; }
-    .container { max-width: 800px; margin: 0 auto; }
-    
-    .nav-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+
+    .nav-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
     .nav-btn { background-color: #1f2833; color: #66fcf1; border: 2px solid #ff4500; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
     .nav-btn.active, .nav-btn:hover { background-color: #ff4500; color: white; }
 
-    /* Cards Layout */
+    /* Search Bar Styling */
+    .search-wrapper { margin-bottom: 20px; position: relative; }
+    .search-input {
+      width: 100%;
+      background-color: #1f2833;
+      border: 2px solid #45a29e;
+      border-radius: 8px;
+      padding: 12px 40px 12px 16px;
+      color: #66fcf1;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input:focus {
+      border-color: #ff4500;
+      box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
+    }
+    .search-input::placeholder { color: #8892b0; }
+    .clear-search-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #ff4500;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
+      font-weight: bold;
+    }
+    .clear-search-btn:hover { color: #ff8c00; }
+
     .card { background-color: #1f2833; border-left: 6px solid #ff4500; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; transition: transform 0.2s, box-shadow 0.2s; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); }
     .clickable-card { cursor: pointer; }
     .card-rank { font-size: 2rem; font-weight: bold; color: #ff8c00; min-width: 45px; text-align: center; }
     
-    /* Level Thumbnail Styling */
     .level-thumb {
       width: 120px;
       height: 70px;
@@ -68,7 +100,8 @@
     .modal-list { list-style: none; max-height: 250px; overflow-y: auto; }
     .modal-item { background: #0b0c10; padding: 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Responsive adjustment for small screens */
+    .no-results { text-align: center; color: #8892b0; padding: 30px 10px; font-size: 1.1rem; }
+
     @media (max-width: 600px) {
       .card { flex-wrap: wrap; }
       .level-thumb { width: 100%; height: 140px; }
@@ -89,6 +122,13 @@
       <button class="nav-btn" id="team-tab-btn" onclick="showTab('team')">List Team</button>
     </div>
 
+    <!-- Search Controls -->
+    <div class="search-wrapper" id="search-wrapper">
+      <input type="text" id="search-input" class="search-input" placeholder="Search level name, creator, verifier, or ID..." oninput="handleSearch()">
+      <button id="clear-search-btn" class="clear-search-btn" onclick="clearSearch()">&times;</button>
+    </div>
+
+    <!-- Tab Containers -->
     <main id="list-container"></main>
     <main id="leaderboard-container" style="display: none;"></main>
     
@@ -132,6 +172,8 @@
   </div>
 
   <script>
+    let currentTab = 'list';
+
     const solarLevels = [
       {
         rank: 1,
@@ -162,21 +204,35 @@
       }
     ];
 
-    // Function to extract YouTube Video ID from any link style (youtu.be or youtube.com/watch?v=)
     function getYouTubeVideoId(url) {
       if (!url) return null;
       const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
       return match ? match[1] : null;
     }
 
-    function renderList() {
+    function renderList(query = '') {
       const listContainer = document.getElementById('list-container');
       listContainer.innerHTML = '';
 
-      solarLevels.forEach(level => {
+      const cleanQuery = query.toLowerCase().trim();
+
+      const filteredLevels = solarLevels.filter(level => {
+        if (!cleanQuery) return true;
+        return (
+          level.name.toLowerCase().includes(cleanQuery) ||
+          level.creator.toLowerCase().includes(cleanQuery) ||
+          level.verifier.toLowerCase().includes(cleanQuery) ||
+          level.id.toString().includes(cleanQuery)
+        );
+      });
+
+      if (filteredLevels.length === 0) {
+        listContainer.innerHTML = `<div class="no-results">No levels match "${query}"</div>`;
+        return;
+      }
+
+      filteredLevels.forEach(level => {
         const points = (151 - level.rank).toFixed(2);
-        
-        // Auto-generate YouTube thumbnail link
         const videoId = getYouTubeVideoId(level.ytLink);
         const thumbUrl = videoId 
           ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` 
@@ -204,7 +260,7 @@
       });
     }
 
-    function renderLeaderboard() {
+    function renderLeaderboard(query = '') {
       const lbContainer = document.getElementById('leaderboard-container');
       lbContainer.innerHTML = '';
 
@@ -227,12 +283,17 @@
         }
       });
 
+      const cleanQuery = query.toLowerCase().trim();
+
       const sortedPlayers = Object.keys(playerScores)
         .map(name => ({ name, points: playerScores[name] }))
-        .sort((a, b) => b.points - a.points);
+        .sort((a, b) => b.points - a.points)
+        .filter(player => !cleanQuery || player.name.toLowerCase().includes(cleanQuery));
 
       if (sortedPlayers.length === 0) {
-        lbContainer.innerHTML = '<p style="text-align:center; padding: 20px;">No player records found yet.</p>';
+        lbContainer.innerHTML = query 
+          ? `<div class="no-results">No players match "${query}"</div>`
+          : '<p style="text-align:center; padding: 20px;">No player records found yet.</p>';
         return;
       }
 
@@ -250,6 +311,26 @@
         `;
         lbContainer.appendChild(card);
       });
+    }
+
+    function handleSearch() {
+      const query = document.getElementById('search-input').value;
+      const clearBtn = document.getElementById('clear-search-btn');
+      
+      clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+
+      if (currentTab === 'list') {
+        renderList(query);
+      } else if (currentTab === 'leaderboard') {
+        renderLeaderboard(query);
+      }
+    }
+
+    function clearSearch() {
+      const searchInput = document.getElementById('search-input');
+      searchInput.value = '';
+      handleSearch();
+      searchInput.focus();
     }
 
     function openLevelModal(level) {
@@ -359,9 +440,13 @@
     };
 
     function showTab(tabName) {
+      currentTab = tabName;
+
       const listTab = document.getElementById('list-container');
       const lbTab = document.getElementById('leaderboard-container');
       const teamTab = document.getElementById('team-container');
+      const searchWrapper = document.getElementById('search-wrapper');
+      const searchInput = document.getElementById('search-input');
 
       const listBtn = document.getElementById('list-tab-btn');
       const lbBtn = document.getElementById('leaderboard-tab-btn');
@@ -375,14 +460,25 @@
       lbBtn.classList.remove('active');
       teamBtn.classList.remove('active');
 
+      // Clear search when switching tabs
+      searchInput.value = '';
+      document.getElementById('clear-search-btn').style.display = 'none';
+
       if (tabName === 'list') {
         listTab.style.display = 'block';
+        searchWrapper.style.display = 'block';
+        searchInput.placeholder = 'Search level name, creator, verifier, or ID...';
         listBtn.classList.add('active');
+        renderList();
       } else if (tabName === 'leaderboard') {
         lbTab.style.display = 'block';
+        searchWrapper.style.display = 'block';
+        searchInput.placeholder = 'Search player name...';
         lbBtn.classList.add('active');
+        renderLeaderboard();
       } else if (tabName === 'team') {
         teamTab.style.display = 'block';
+        searchWrapper.style.display = 'none';
         teamBtn.classList.add('active');
       }
     }
