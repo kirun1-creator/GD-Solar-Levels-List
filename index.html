@@ -13,8 +13,8 @@
     .container { max-width: 800px; margin: 0 auto; }
     
     /* Navigation Bar */
-    .nav-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
-    .nav-btn { background-color: #1f2833; color: #66fcf1; border: 2px solid #ff4500; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
+    .nav-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+    .nav-btn { background-color: #1f2833; color: #66fcf1; border: 2px solid #ff4500; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
     .nav-btn.active, .nav-btn:hover { background-color: #ff4500; color: white; }
 
     /* Cards Layout */
@@ -49,6 +49,14 @@
       background-color: #cc0000;
     }
 
+    /* List Team Section Styles */
+    .team-section { background-color: #1f2833; border: 2px solid #45a29e; border-radius: 12px; padding: 25px; margin-bottom: 25px; }
+    .team-heading { font-size: 1.5rem; color: #ff8c00; margin-bottom: 15px; border-bottom: 2px solid #45a29e; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+    .team-card { background-color: #0b0c10; border-left: 4px solid #66fcf1; border-radius: 8px; padding: 15px; display: flex; align-items: center; justify-content: space-between; }
+    .team-member-name { font-size: 1.1rem; color: #66fcf1; font-weight: bold; }
+    .team-badge { background-color: rgba(255, 69, 0, 0.2); color: #ff8c00; border: 1px solid #ff4500; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+
     /* Modal Overlay */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
     .modal-content { background-color: #1f2833; border: 2px solid #ff4500; border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; position: relative; box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4); }
@@ -71,10 +79,36 @@
     <div class="nav-bar">
       <button class="nav-btn active" id="list-tab-btn" onclick="showTab('list')">Demon List</button>
       <button class="nav-btn" id="leaderboard-tab-btn" onclick="showTab('leaderboard')">Leaderboards</button>
+      <button class="nav-btn" id="team-tab-btn" onclick="showTab('team')">List Team</button>
     </div>
 
     <main id="list-container"></main>
     <main id="leaderboard-container" style="display: none;"></main>
+    
+    <!-- List Team Container -->
+    <main id="team-container" style="display: none;">
+      <!-- List Helpers Section -->
+      <div class="team-section">
+        <div class="team-heading">🛠️ List Helpers</div>
+        <div class="team-grid">
+          <div class="team-card">
+            <span class="team-member-name">Kirun1001</span>
+            <span class="team-badge">Helper</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- List Moderators Section -->
+      <div class="team-section">
+        <div class="team-heading">🛡️ List Moderators</div>
+        <div class="team-grid">
+          <div class="team-card">
+            <span class="team-member-name">Kirun1001</span>
+            <span class="team-badge">Moderator</span>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
 
   <!-- Player Profile Modal Popup -->
@@ -100,7 +134,6 @@
   </div>
 
   <script>
-    // Solar levels configuration array
     const solarLevels = [
       {
         rank: 1,
@@ -275,7 +308,6 @@
         const isVerifier = lvl.verifier === playerName;
         const role = isVerifier ? "Verifier" : "Victor";
 
-        // Find the player's specific completion link
         let completionLink = "";
         if (isVerifier) {
           completionLink = lvl.ytLink || "";
@@ -319,19 +351,32 @@
     function showTab(tabName) {
       const listTab = document.getElementById('list-container');
       const lbTab = document.getElementById('leaderboard-container');
+      const teamTab = document.getElementById('team-container');
+
       const listBtn = document.getElementById('list-tab-btn');
       const lbBtn = document.getElementById('leaderboard-tab-btn');
+      const teamBtn = document.getElementById('team-tab-btn');
 
+      // Hide all tabs
+      listTab.style.display = 'none';
+      lbTab.style.display = 'none';
+      teamTab.style.display = 'none';
+
+      // Remove active class from all buttons
+      listBtn.classList.remove('active');
+      lbBtn.classList.remove('active');
+      teamBtn.classList.remove('active');
+
+      // Show selected tab
       if (tabName === 'list') {
         listTab.style.display = 'block';
-        lbTab.style.display = 'none';
         listBtn.classList.add('active');
-        lbBtn.classList.remove('active');
-      } else {
-        listTab.style.display = 'none';
+      } else if (tabName === 'leaderboard') {
         lbTab.style.display = 'block';
         lbBtn.classList.add('active');
-        listBtn.classList.remove('active');
+      } else if (tabName === 'team') {
+        teamTab.style.display = 'block';
+        teamBtn.classList.add('active');
       }
     }
 
