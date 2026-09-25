@@ -105,6 +105,12 @@
       color: #45a29e;
       margin-top: 4px;
     }
+    .card-id {
+      font-size: 0.85rem;
+      color: #888888;
+      margin-top: 4px;
+      font-family: monospace;
+    }
     .points-badge {
       color: #ff8c00;
       font-weight: bold;
@@ -119,6 +125,7 @@
       font-weight: bold;
       font-size: 0.9rem;
       transition: background 0.2s;
+      white-space: nowrap;
     }
     .video-btn:hover {
       background-color: #e03e00;
@@ -187,6 +194,17 @@
       justify-content: space-between;
       align-items: center;
     }
+    .level-id-badge {
+      display: inline-block;
+      background-color: #0b0c10;
+      color: #ff8c00;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-family: monospace;
+      margin-left: 6px;
+      border: 1px solid #ff8c00;
+    }
   </style>
 </head>
 <body>
@@ -220,13 +238,14 @@
   </div>
 
   <script>
-    // YOUR LEVELS ARRAY
+    // YOUR LEVELS ARRAY (Includes 'id' field for each level)
     const solarLevels = [
       {
         rank: 1,
         name: "Exreme Robot",
         creator: "Kirun1001",
         verifier: "Kirun1001",
+        id: "146732262",
         ytLink: "https://youtu.be/3hWNV8ihL4U?si=URsDoeTyNmqLXgEM"
       },
       {
@@ -234,6 +253,7 @@
         name: "-",
         creator: "-",
         verifier: "-",
+        id: "-",
         ytLink: "https://www.youtube.com"
       },
       {
@@ -241,6 +261,7 @@
         name: "-",
         creator: "-",
         verifier: "-",
+        id: "-",
         ytLink: "https://www.youtube.com"
       }
     ];
@@ -261,6 +282,7 @@
             <div class="card-title">${level.name}</div>
             <div class="card-subtitle">Created by <strong>${level.creator}</strong></div>
             <div class="card-detail">Verified by ${level.verifier} | <span class="points-badge">${points} pts</span></div>
+            <div class="card-id">ID: <span class="level-id-badge">${level.id}</span></div>
           </div>
           <a href="${level.ytLink}" target="_blank" class="video-btn">Watch Video</a>
         `;
@@ -325,7 +347,7 @@
         li.innerHTML = `
           <div>
             <strong style="color:#66fcf1;">#${lvl.rank} ${lvl.name}</strong>
-            <div style="font-size:0.8rem; color:#c5c6c7;">By ${lvl.creator}</div>
+            <div style="font-size:0.8rem; color:#c5c6c7;">By ${lvl.creator} | ID: <span class="level-id-badge">${lvl.id}</span></div>
           </div>
           <span style="color:#ff8c00; font-weight:bold;">${pts} pts</span>
         `;
