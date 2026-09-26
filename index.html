@@ -6,65 +6,30 @@
   <title>Solar Levels List</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #0b0c10; color: #c5c6c7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; min-height: 100vh; }
-    .container { max-width: 800px; margin: 0 auto; }
-    
+    body { background-color: #0b0c10; color: #c5c6c7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
     header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #ff4500, #ff8c00); color: white; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3); }
     header h1 { font-size: 2.5rem; letter-spacing: 2px; text-transform: uppercase; }
     header p { margin-top: 10px; font-size: 1.1rem; opacity: 0.9; }
-
-    .nav-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
-    .nav-btn { background-color: #1f2833; color: #66fcf1; border: 2px solid #ff4500; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
+    .container { max-width: 800px; margin: 0 auto; }
+    
+    .nav-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .nav-btn { background-color: #1f2833; color: #66fcf1; border: 2px solid #ff4500; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
     .nav-btn.active, .nav-btn:hover { background-color: #ff4500; color: white; }
+    .submit-btn { background-color: #5865F2; color: white; border: 2px solid #5865F2; text-decoration: none; display: inline-block; }
+    .submit-btn:hover { background-color: #4752C4; border-color: #4752C4; }
 
-    /* Search Bar Styling */
-    .search-wrapper { margin-bottom: 20px; position: relative; }
-    .search-input {
-      width: 100%;
-      background-color: #1f2833;
-      border: 2px solid #45a29e;
-      border-radius: 8px;
-      padding: 12px 40px 12px 16px;
-      color: #66fcf1;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .search-input:focus {
-      border-color: #ff4500;
-      box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
-    }
-    .search-input::placeholder { color: #8892b0; }
-    .clear-search-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #ff4500;
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: none;
-      font-weight: bold;
-    }
-    .clear-search-btn:hover { color: #ff8c00; }
+    .search-container { position: relative; margin-bottom: 25px; }
+    .search-input { width: 100%; padding: 14px 45px 14px 18px; background-color: #1f2833; border: 2px solid #45a29e; border-radius: 8px; color: #ffffff; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+    .search-input:focus { border-color: #ff4500; }
+    .search-clear { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #8892b0; font-size: 1.4rem; cursor: pointer; display: none; }
+    .search-clear:hover { color: #ff4500; }
 
     .card { background-color: #1f2833; border-left: 6px solid #ff4500; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; transition: transform 0.2s, box-shadow 0.2s; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); }
     .clickable-card { cursor: pointer; }
     .card-rank { font-size: 2rem; font-weight: bold; color: #ff8c00; min-width: 45px; text-align: center; }
     
-    .level-thumb {
-      width: 120px;
-      height: 70px;
-      border-radius: 6px;
-      object-fit: cover;
-      border: 1px solid #ff4500;
-      background-color: #0b0c10;
-      flex-shrink: 0;
-    }
-
+    .level-thumb { width: 120px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid #ff4500; background-color: #0b0c10; flex-shrink: 0; }
     .card-info { flex-grow: 1; }
     .card-title { font-size: 1.3rem; color: #66fcf1; margin-bottom: 3px; }
     .card-subtitle { font-size: 0.9rem; color: #c5c6c7; }
@@ -74,17 +39,7 @@
     .video-btn { background-color: #ff4500; color: white; text-decoration: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; transition: background 0.2s; flex-shrink: 0; }
     .video-btn:hover { background-color: #e03e00; }
     
-    .small-yt-btn {
-      background-color: #ff0000;
-      color: white;
-      text-decoration: none;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      margin-left: 10px;
-      transition: background 0.2s;
-    }
+    .small-yt-btn { background-color: #ff0000; color: white; text-decoration: none; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 10px; transition: background 0.2s; }
     .small-yt-btn:hover { background-color: #cc0000; }
 
     .team-section { margin-bottom: 30px; }
@@ -99,8 +54,6 @@
     .modal-stats { font-size: 1rem; color: #ff8c00; font-weight: bold; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #45a29e; }
     .modal-list { list-style: none; max-height: 250px; overflow-y: auto; }
     .modal-item { background: #0b0c10; padding: 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-
-    .no-results { text-align: center; color: #8892b0; padding: 30px 10px; font-size: 1.1rem; }
 
     @media (max-width: 600px) {
       .card { flex-wrap: wrap; }
@@ -120,15 +73,14 @@
       <button class="nav-btn active" id="list-tab-btn" onclick="showTab('list')">Demon List</button>
       <button class="nav-btn" id="leaderboard-tab-btn" onclick="showTab('leaderboard')">Leaderboards</button>
       <button class="nav-btn" id="team-tab-btn" onclick="showTab('team')">List Team</button>
+      <a href="https://discord.gg/8rf7NXr6uF" target="_blank" class="nav-btn submit-btn">Submit Record</a>
     </div>
 
-    <!-- Search Controls -->
-    <div class="search-wrapper" id="search-wrapper">
-      <input type="text" id="search-input" class="search-input" placeholder="Search level name, creator, verifier, or ID..." oninput="handleSearch()">
-      <button id="clear-search-btn" class="clear-search-btn" onclick="clearSearch()">&times;</button>
+    <div class="search-container" id="search-box">
+      <input type="text" id="search-bar" class="search-input" placeholder="Search levels, creators, IDs..." oninput="handleSearch()">
+      <span class="search-clear" id="search-clear-btn" onclick="clearSearch()">&times;</span>
     </div>
 
-    <!-- Tab Containers -->
     <main id="list-container"></main>
     <main id="leaderboard-container" style="display: none;"></main>
     
@@ -172,8 +124,6 @@
   </div>
 
   <script>
-    let currentTab = 'list';
-
     const solarLevels = [
       {
         rank: 1,
@@ -204,6 +154,8 @@
       }
     ];
 
+    let currentTab = 'list';
+
     function getYouTubeVideoId(url) {
       if (!url) return null;
       const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
@@ -213,21 +165,17 @@
     function renderList(query = '') {
       const listContainer = document.getElementById('list-container');
       listContainer.innerHTML = '';
-
       const cleanQuery = query.toLowerCase().trim();
 
-      const filteredLevels = solarLevels.filter(level => {
-        if (!cleanQuery) return true;
-        return (
-          level.name.toLowerCase().includes(cleanQuery) ||
-          level.creator.toLowerCase().includes(cleanQuery) ||
-          level.verifier.toLowerCase().includes(cleanQuery) ||
-          level.id.toString().includes(cleanQuery)
-        );
-      });
+      const filteredLevels = solarLevels.filter(lvl => 
+        lvl.name.toLowerCase().includes(cleanQuery) ||
+        lvl.creator.toLowerCase().includes(cleanQuery) ||
+        lvl.verifier.toLowerCase().includes(cleanQuery) ||
+        lvl.id.toLowerCase().includes(cleanQuery)
+      );
 
       if (filteredLevels.length === 0) {
-        listContainer.innerHTML = `<div class="no-results">No levels match "${query}"</div>`;
+        listContainer.innerHTML = '<p style="text-align:center; padding: 30px; color:#8892b0;">No levels match your search.</p>';
         return;
       }
 
@@ -263,6 +211,7 @@
     function renderLeaderboard(query = '') {
       const lbContainer = document.getElementById('leaderboard-container');
       lbContainer.innerHTML = '';
+      const cleanQuery = query.toLowerCase().trim();
 
       const playerScores = {};
 
@@ -283,17 +232,13 @@
         }
       });
 
-      const cleanQuery = query.toLowerCase().trim();
-
       const sortedPlayers = Object.keys(playerScores)
         .map(name => ({ name, points: playerScores[name] }))
-        .sort((a, b) => b.points - a.points)
-        .filter(player => !cleanQuery || player.name.toLowerCase().includes(cleanQuery));
+        .filter(player => player.name.toLowerCase().includes(cleanQuery))
+        .sort((a, b) => b.points - a.points);
 
       if (sortedPlayers.length === 0) {
-        lbContainer.innerHTML = query 
-          ? `<div class="no-results">No players match "${query}"</div>`
-          : '<p style="text-align:center; padding: 20px;">No player records found yet.</p>';
+        lbContainer.innerHTML = '<p style="text-align:center; padding: 30px; color:#8892b0;">No players match your search.</p>';
         return;
       }
 
@@ -314,8 +259,8 @@
     }
 
     function handleSearch() {
-      const query = document.getElementById('search-input').value;
-      const clearBtn = document.getElementById('clear-search-btn');
+      const query = document.getElementById('search-bar').value;
+      const clearBtn = document.getElementById('search-clear-btn');
       
       clearBtn.style.display = query.length > 0 ? 'block' : 'none';
 
@@ -327,10 +272,10 @@
     }
 
     function clearSearch() {
-      const searchInput = document.getElementById('search-input');
-      searchInput.value = '';
+      const searchBar = document.getElementById('search-bar');
+      searchBar.value = '';
       handleSearch();
-      searchInput.focus();
+      searchBar.focus();
     }
 
     function openLevelModal(level) {
@@ -441,12 +386,12 @@
 
     function showTab(tabName) {
       currentTab = tabName;
-
+      
       const listTab = document.getElementById('list-container');
       const lbTab = document.getElementById('leaderboard-container');
       const teamTab = document.getElementById('team-container');
-      const searchWrapper = document.getElementById('search-wrapper');
-      const searchInput = document.getElementById('search-input');
+      const searchBox = document.getElementById('search-box');
+      const searchBar = document.getElementById('search-bar');
 
       const listBtn = document.getElementById('list-tab-btn');
       const lbBtn = document.getElementById('leaderboard-tab-btn');
@@ -460,26 +405,22 @@
       lbBtn.classList.remove('active');
       teamBtn.classList.remove('active');
 
-      // Clear search when switching tabs
-      searchInput.value = '';
-      document.getElementById('clear-search-btn').style.display = 'none';
-
       if (tabName === 'list') {
         listTab.style.display = 'block';
-        searchWrapper.style.display = 'block';
-        searchInput.placeholder = 'Search level name, creator, verifier, or ID...';
         listBtn.classList.add('active');
-        renderList();
+        searchBox.style.display = 'block';
+        searchBar.placeholder = "Search levels, creators, IDs...";
+        renderList(searchBar.value);
       } else if (tabName === 'leaderboard') {
         lbTab.style.display = 'block';
-        searchWrapper.style.display = 'block';
-        searchInput.placeholder = 'Search player name...';
         lbBtn.classList.add('active');
-        renderLeaderboard();
+        searchBox.style.display = 'block';
+        searchBar.placeholder = "Search player names...";
+        renderLeaderboard(searchBar.value);
       } else if (tabName === 'team') {
         teamTab.style.display = 'block';
-        searchWrapper.style.display = 'none';
         teamBtn.classList.add('active');
+        searchBox.style.display = 'none';
       }
     }
 
