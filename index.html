@@ -66,7 +66,7 @@
   <div class="container">
     <header>
       <h1>☀️ Solar Levels List</h1>
-      <p>The official rankings for the hardest demons</p>
+      <p>The rankings for the hardest demons</p>
     </header>
 
     <div class="nav-bar">
@@ -133,16 +133,18 @@
         id: "146732262",
         ytLink: "https://youtu.be/3hWNV8ihL4U?si=URsDoeTyNmqLXgEM",
         victors: [] 
-      },
-      {
+      },      {
         rank: 2,
         name: "Wave Challenge",
         creator: "Kirun1001",
         verifier: "Kirun1001",
         id: "142320789",
         ytLink: "https://youtu.be/0O85qdTByGU?si=A6bYkwO9VWeRouZV",
-        victors: ["IamBlender","DozerGMD"]
-      },
+        victors: [
+          { name: "IamBlender", ytLink: "https://youtu.be/EXAMPLE_LINK_1" },
+          { name: "DozerGMD", ytLink: "https://youtu.be/EXAMPLE_LINK_2" }
+        ]
+      }, // <-- DON'T FORGET THIS COMMA!
       {
         rank: 3,
         name: "-",
@@ -152,6 +154,7 @@
         ytLink: "https://www.youtube.com",
         victors: []
       }
+
     ];
 
     let currentTab = 'list';
