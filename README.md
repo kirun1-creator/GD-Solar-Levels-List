@@ -1,4 +1,5 @@
 # Solar Levels List v2
 
 Preview:
-(todo)
+
+![Preview](image.png)
