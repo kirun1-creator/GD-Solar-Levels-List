@@ -1,3 +1,3 @@
-# Solar Levels List v2
+# Solar Levels List
 
 ![Preview](image.png)
