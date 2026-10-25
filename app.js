@@ -29,8 +29,11 @@ function completions(lvl) {
   return out;
 }
 
+const rating = n => (typeof n === 'number' && n >= 0 && n <= 10 ? n : null);
+const dash = '<span class="muted">—</span>';
+
 function enjoyment(lvl) {
-  const r = completions(lvl).map(c => c.enjoyment).filter(n => typeof n === 'number' && n >= 0 && n <= 10);
+  const r = completions(lvl).map(c => rating(c.enjoyment)).filter(n => n !== null);
   return r.length ? (r.reduce((a, b) => a + b, 0) / r.length).toFixed(2) : null;
 }
 
@@ -66,11 +69,11 @@ function demonDetail(key) {
   const media = id
     ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(id)}" title="${esc(l.name)} verification" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`
     : url(l.video) ? `<a class="btn" href="${url(l.video)}" target="_blank" rel="noopener">Watch verification</a>` : '';
-  const rows = completions(l).map(c => `<tr><td>${profile(c.name)}</td><td>${c.role}</td><td>${link(c.link, 'Watch')}</td></tr>`).join('');
+  const rows = completions(l).map(c => `<tr><td>${profile(c.name)}</td><td>${c.role}</td><td>${rating(c.enjoyment)?.toFixed(2) ?? dash}</td><td>${link(c.link, 'Watch')}</td></tr>`).join('');
   return `<article class="panel detail"><h1>${esc(l.name)}</h1><p class="byline">by ${esc(l.creator)}</p>${media}
-    <dl class="facts"><div><dt>Enjoyment</dt><dd>${enjoyment(l) ?? '<span class="muted">—</span>'}</dd></div><div><dt>Points</dt><dd>${pts(l.rank).toFixed(2)}</dd></div>
+    <dl class="facts"><div><dt>Enjoyment</dt><dd>${enjoyment(l) ?? dash}</dd></div><div><dt>Points</dt><dd>${pts(l.rank).toFixed(2)}</dd></div>
     <div><dt class="copy-label">Level ID</dt><dd class="copy-id" data-id="${esc(l.id)}" title="Click to copy" style="cursor:pointer">${esc(l.id)}</dd></div><div><dt>Verifier</dt><dd>${profile(l.verifier)}</dd></div></dl>
-    <h2>Records (${completions(l).length})</h2>${rows ? `<div class="tbl"><table><thead><tr><th>Player</th><th>Role</th><th>Video</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="muted">No records yet.</p>'}</article>`;
+    <h2>Records (${completions(l).length})</h2>${rows ? `<div class="tbl"><table><thead><tr><th>Player</th><th>Role</th><th>Enjoyment</th><th>Video</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="muted">No records yet.</p>'}</article>`;
 }
 
 function playerDetail(key) {
