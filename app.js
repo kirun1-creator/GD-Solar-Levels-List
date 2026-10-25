@@ -64,7 +64,7 @@ function demonDetail(key) {
   const rows = completions(l).map(c => `<tr><td>${profile(c.name)}</td><td>${c.role}</td><td>${link(c.link, 'Watch')}</td></tr>`).join('');
   return `<article class="panel detail"><h1>${esc(l.name)}</h1><p class="byline">by ${esc(l.creator)}</p>${media}
     <dl class="facts"><div><dt>Position</dt><dd>#${l.rank}</dd></div><div><dt>Points</dt><dd>${pts(l.rank).toFixed(2)}</dd></div>
-    <div><dt>Level ID</dt><dd>${esc(l.id)}</dd></div><div><dt>Verifier</dt><dd>${profile(l.verifier)}</dd></div></dl>
+    <div><dt class="copy-label">Level ID</dt><dd class="copy-id" data-id="${esc(l.id)}" title="Click to copy" style="cursor:pointer">${esc(l.id)}</dd></div><div><dt>Verifier</dt><dd>${profile(l.verifier)}</dd></div></dl>
     <h2>Records (${completions(l).length})</h2>${rows ? `<div class="tbl"><table><thead><tr><th>Player</th><th>Role</th><th>Video</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="muted">No records yet.</p>'}</article>`;
 }
 
@@ -131,5 +131,19 @@ async function init() {
   $('submit-link').href = state.cfg.submitUrl || '#';
   addEventListener('hashchange', render);
   render();
+
+  document.addEventListener('click', async e => {
+    const el = e.target.closest('.copy-id');
+    if (!el) return;
+
+    await navigator.clipboard.writeText(el.dataset.id);
+
+    const label = el.closest('div').querySelector('.copy-label');
+    label.textContent = 'Copied!';
+
+    setTimeout(() => {
+      label.textContent = 'Level ID';
+    }, 1000);
+  });
 }
 init();
