@@ -80,9 +80,9 @@ function playerDetail(key) {
   const p = ranking().find(x => x.name === key);
   if (!p) return '<p class="empty panel">Player not found.</p>';
   const rows = state.levels.flatMap(l => completions(l).filter(c => c.name === p.name).map(c =>
-    `<tr><td><a href="#/demon/${l.rank}">#${l.rank} ${esc(l.name)}</a></td><td>${c.role}</td><td>${pts(l.rank).toFixed(2)}</td><td>${link(c.link, 'Watch')}</td></tr>`)).join('');
+    `<tr><td><a href="#/demon/${l.rank}">#${l.rank} ${esc(l.name)}</a></td><td>${c.role}</td><td>${rating(c.enjoyment)?.toFixed(2) ?? dash}</td><td>${pts(l.rank).toFixed(2)}</td><td>${link(c.link, 'Watch')}</td></tr>`)).join('');
   return `<article class="panel detail"><h1>${esc(p.name)}</h1><dl class="facts"><div><dt>Position</dt><dd>#${p.pos}</dd></div><div><dt>Total points</dt><dd>${p.points.toFixed(2)}</dd></div></dl>
-    <h2>Completed levels</h2><div class="tbl"><table><thead><tr><th>Level</th><th>Role</th><th>Points</th><th>Video</th></tr></thead><tbody>${rows}</tbody></table></div></article>`;
+    <h2>Completed levels</h2><div class="tbl"><table><thead><tr><th>Level</th><th>Role</th><th>Enjoyment</th><th>Points</th><th>Video</th></tr></thead><tbody>${rows}</tbody></table></div></article>`;
 }
 
 function teamView() {
