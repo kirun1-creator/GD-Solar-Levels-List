@@ -80,6 +80,55 @@
     ]
   },
   {
+    "name": "Extreme Robot",
+    "creator": "Kirun1001",
+    "verifier": "Kirun1001",
+    "id": "146732262",
+    "video": "https://youtu.be/3hWNV8ihL4U?si=URsDoeTyNmqLXgEM",
+    "victors": [
+      {
+        "name": "DozerGMD",
+        "video": "https://youtu.be/BqHDPO9tlUM"
+      },
+      {
+        "name": "CuteBever",
+        "video": "https://youtu.be/NppP0aOJYZc?si=VOVqERztAbWYdWAx"
+      },
+      {
+        "name": "HollowRR",
+        "video": "https://youtu.be/eYnF111SkaQ?si=Oh76082Ov9h1-Af5"
+      },
+      {
+        "name": "SussyBaka1914",
+        "video": "https://www.youtube.com/watch?v=PBVf5HRAU1k"
+      },
+      {
+        "name": "Bluamek",
+        "video": "https://www.youtube.com/watch?v=A8ECfFxcFm4"
+      },
+      {
+        "name": "AlienFromPolGr",
+        "video": "https://youtu.be/Kllt5T3XsZ4?si=ZAdH8kdZBuFFgW4t"
+      },
+      {
+        "name": "GDPlasmaal",
+        "video": "https://medal.tv/games/geometry-dash/clips/nEJB5xZNslYOQia4s?invite=cr-MSxWN1YsODgzMDcyNTQz"
+      },
+      {
+        "name": "Josef3335",
+        "video": "https://medal.tv/games/geometry-dash/clips/nFknQ2gHT3RkFnekV?invite=cr-MSxTNDEsNDQyMTU0OTU0"
+      },
+      {
+        "name": "bald_man",
+        "video": "https://cdn.discordapp.com/attachments/1561775268698394766/1561775270997000294/extreme_robot.mov?ex=6ad98e50&is=6ad83cd0&hm=621a81e3f054a57c726b96a5072c560a089271476572d14b8b2106254217f740&"
+      },
+      {
+        "name": "koifisho",
+        "video": "https://youtu.be/72FrJ2E0lsc?is=8BviV2HB5QEhIQSH"
+      }
+    ]
+  },
+  {
     "name": "Ok Circles",
     "creator": "SussyBaka1914",
     "verifier": "SussyBaka1914",
@@ -153,55 +202,7 @@
       }
     ]
   },
-  {
-    "name": "Extreme Robot",
-    "creator": "Kirun1001",
-    "verifier": "Kirun1001",
-    "id": "146732262",
-    "video": "https://youtu.be/3hWNV8ihL4U?si=URsDoeTyNmqLXgEM",
-    "victors": [
-      {
-        "name": "DozerGMD",
-        "video": "https://youtu.be/BqHDPO9tlUM"
-      },
-      {
-        "name": "CuteBever",
-        "video": "https://youtu.be/NppP0aOJYZc?si=VOVqERztAbWYdWAx"
-      },
-      {
-        "name": "HollowRR",
-        "video": "https://youtu.be/eYnF111SkaQ?si=Oh76082Ov9h1-Af5"
-      },
-      {
-        "name": "SussyBaka1914",
-        "video": "https://www.youtube.com/watch?v=PBVf5HRAU1k"
-      },
-      {
-        "name": "Bluamek",
-        "video": "https://www.youtube.com/watch?v=A8ECfFxcFm4"
-      },
-      {
-        "name": "AlienFromPolGr",
-        "video": "https://youtu.be/Kllt5T3XsZ4?si=ZAdH8kdZBuFFgW4t"
-      },
-      {
-        "name": "GDPlasmaal",
-        "video": "https://medal.tv/games/geometry-dash/clips/nEJB5xZNslYOQia4s?invite=cr-MSxWN1YsODgzMDcyNTQz"
-      },
-      {
-        "name": "Josef3335",
-        "video": "https://medal.tv/games/geometry-dash/clips/nFknQ2gHT3RkFnekV?invite=cr-MSxTNDEsNDQyMTU0OTU0"
-      },
-      {
-        "name": "bald_man",
-        "video": "https://cdn.discordapp.com/attachments/1561775268698394766/1561775270997000294/extreme_robot.mov?ex=6ad98e50&is=6ad83cd0&hm=621a81e3f054a57c726b96a5072c560a089271476572d14b8b2106254217f740&"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/72FrJ2E0lsc?is=8BviV2HB5QEhIQSH"
-      }
-    ]
-  },
+
   {
     "name": "H221",
     "creator": "Rydzuu",
