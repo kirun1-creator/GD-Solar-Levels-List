@@ -7,11 +7,11 @@
   "sections": [
     {
       "name": "Main list",
-      "maxRank": 75
+      "maxRank": 25
     },
     {
       "name": "Extended list",
-      "maxRank": 150
+      "maxRank": 50
     }
   ]
 }
