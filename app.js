@@ -23,10 +23,15 @@ function ytId(l) {
 
 function completions(lvl) {
   const out = [];
-  if (real(lvl.verifier)) out.push({ name: lvl.verifier, role: 'Verifier', link: lvl.video });
+  if (real(lvl.verifier)) out.push({ name: lvl.verifier, role: 'Verifier', link: lvl.video, enjoyment: lvl.verifierEnjoyment });
   for (const v of lvl.victors || [])
-    if (real(v.name) && v.name !== lvl.verifier) out.push({ name: v.name, role: 'Victor', link: v.video });
+    if (real(v.name) && v.name !== lvl.verifier) out.push({ name: v.name, role: 'Victor', link: v.video, enjoyment: v.enjoyment });
   return out;
+}
+
+function enjoyment(lvl) {
+  const r = completions(lvl).map(c => c.enjoyment).filter(n => typeof n === 'number' && n >= 0 && n <= 10);
+  return r.length ? (r.reduce((a, b) => a + b, 0) / r.length).toFixed(2) : null;
 }
 
 function ranking() {
@@ -63,7 +68,7 @@ function demonDetail(key) {
     : url(l.video) ? `<a class="btn" href="${url(l.video)}" target="_blank" rel="noopener">Watch verification</a>` : '';
   const rows = completions(l).map(c => `<tr><td>${profile(c.name)}</td><td>${c.role}</td><td>${link(c.link, 'Watch')}</td></tr>`).join('');
   return `<article class="panel detail"><h1>${esc(l.name)}</h1><p class="byline">by ${esc(l.creator)}</p>${media}
-    <dl class="facts"><div><dt>Position</dt><dd>#${l.rank}</dd></div><div><dt>Points</dt><dd>${pts(l.rank).toFixed(2)}</dd></div>
+    <dl class="facts"><div><dt>Enjoyment</dt><dd>${enjoyment(l) ?? '<span class="muted">—</span>'}</dd></div><div><dt>Points</dt><dd>${pts(l.rank).toFixed(2)}</dd></div>
     <div><dt class="copy-label">Level ID</dt><dd class="copy-id" data-id="${esc(l.id)}" title="Click to copy" style="cursor:pointer">${esc(l.id)}</dd></div><div><dt>Verifier</dt><dd>${profile(l.verifier)}</dd></div></dl>
     <h2>Records (${completions(l).length})</h2>${rows ? `<div class="tbl"><table><thead><tr><th>Player</th><th>Role</th><th>Video</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="muted">No records yet.</p>'}</article>`;
 }
