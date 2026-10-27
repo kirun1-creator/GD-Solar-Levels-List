@@ -13,7 +13,13 @@
     "verifier": "SamFinn",
     "id": "150763439",
     "video": "https://youtu.be/uYlQXFACwfw",
-    "victors": []
+    "victors": [
+      {
+        "name": "koifisho",
+        "video": "https://youtu.be/p-4MDKwJsaw",
+        "enjoyment": 0
+      }
+    ]
   },
   {
     "name": "Bleakscapes",
