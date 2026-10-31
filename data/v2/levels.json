@@ -13,13 +13,7 @@
     "verifier": "SamFinn",
     "id": "150763439",
     "video": "https://youtu.be/uYlQXFACwfw",
-    "victors": [
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/p-4MDKwJsaw",
-        "enjoyment": 0
-      }
-    ]
+    "victors": []
   },
   {
     "name": "Bleakscapes",
@@ -35,10 +29,6 @@
       {
         "name": "SussyBaka1914",
         "video": "https://www.youtube.com/watch?v=NiO3OasPPjo"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/Q4E0sJi3syM"
       }
     ]
   },
@@ -49,10 +39,6 @@
     "id": "151128772",
     "video": "https://youtu.be/MD3sNm_3QGM",
     "victors": [
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/GeOnrD8U76k?is=YQYV4OJ43Mnn7jeS"
-      },
       {
         "name": "SamFinn",
         "video": "https://youtu.be/efH0SEvPPHA?si=oVTCO8bbVgSjXABD"
@@ -70,15 +56,10 @@
   {
     "name": "Ship Out",
     "creator": "koifisho",
-    "verifier": "koifisho",
+    "verifier": "IamBlender",
     "id": "149978408",
-    "video": "https://youtu.be/iIcIV5AKL7Q",
-    "victors": [
-      {
-        "name": "IamBlender",
-        "video": "https://www.youtube.com/watch?v=hfSF4_OKpls"
-      }
-    ]
+    "video": "https://www.youtube.com/watch?v=hfSF4_OKpls",
+    "victors": []
   },
   {
     "name": "Yata Wings Of Garasu",
@@ -90,10 +71,6 @@
       {
         "name": "Bluamek",
         "video": "https://www.youtube.com/watch?v=P7taNrQjOn4"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/1o7EFwZM6f4?is=r6wfC80BdCuPbmSZ"
       },
       {
         "name": "SussyBaka1914",
@@ -143,10 +120,6 @@
       {
         "name": "bald_man",
         "video": "https://cdn.discordapp.com/attachments/1561775268698394766/1561775270997000294/extreme_robot.mov?ex=6ad98e50&is=6ad83cd0&hm=621a81e3f054a57c726b96a5072c560a089271476572d14b8b2106254217f740&"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/72FrJ2E0lsc?is=8BviV2HB5QEhIQSH"
       }
     ]
   },
@@ -168,10 +141,6 @@
       {
         "name": "CuteBever",
         "video": "https://youtu.be/lURxPBZRBDk"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/DM6FusdGvw0"
       },
       {
         "name": "IamBlender",
@@ -218,10 +187,6 @@
       {
         "name": "bald_man",
         "video": "https://cdn.discordapp.com/attachments/1561469839757938708/1561469841666211870/yara_yara_wave.mov?ex=6ad7205c&is=6ad5cedc&hm=173b6175e85c188c38479292c4ea1efd269c8c26a4b75c8c87f918c945084a07&"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/hurwZhABDNA?is=Rp31s2BEx4EPvNTg"
       }
     ]
   },
@@ -276,10 +241,6 @@
       {
         "name": "bald_man",
         "video": "https://cdn.discordapp.com/attachments/1561464210742050866/1561464213178949743/h221.mov?ex=6ad71b1f&is=6ad5c99f&hm=3c85352bc11e57316d27dd20e8e2f714ae19e7387b868f7c027cf9c2c21ca08f&"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/P84fXNZc5F4?is=v2PT7DFinbq_lDj4"
       },
       {
         "name": "ZylxGD",
@@ -337,10 +298,6 @@
       {
         "name": "IamBlender",
         "video": "https://www.youtube.com/watch?v=hfSF4_OKpls"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/cFCo7ceFGrc?is=s7ofqzXK3a4B9ymb"
       },
       {
         "name": "bald_man",
@@ -410,10 +367,6 @@
       {
         "name": "bald_man",
         "video": "https://cdn.discordapp.com/attachments/1561466212276240454/1561466214524391544/wave_challenge.mov?ex=6ad71cfc&is=6ad5cb7c&hm=a4d4acc6669055f80a0bf1e8710bf1ac3b4542789dfc62ce23ceefd0112ffe91&"
-      },
-      {
-        "name": "koifisho",
-        "video": "https://youtu.be/VYMkA9EJ30w?is=B7N_8avxsgvnVqyk"
       }
     ]
   }
