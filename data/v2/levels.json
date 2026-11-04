@@ -24,6 +24,23 @@
     "victors": []
   },
   {
+    "name": "RGB Circles",
+    "creator": "soper",
+    "verifier": "soper",
+    "id": "151825793",
+    "video": "https://www.youtube.com/watch?v=FhacrGxY7kg",
+    "victors": [
+      {
+        "name": "SamFinn",
+        "video": "https://youtu.be/Jy9-wRsAF1k"
+      },
+      {
+        "name": "Bluamek",
+        "video": "https://www.youtube.com/watch?v=QObLghePPS4"
+      },
+    ]
+  },
+  {
     "name": "Bleakscapes",
     "creator": "Egger",
     "verifier": "Egger",
